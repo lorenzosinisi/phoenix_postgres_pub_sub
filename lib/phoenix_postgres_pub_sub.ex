@@ -32,10 +32,10 @@ defmodule PhoenixPostgresPubSub do
   end
 
   defp adapter_from_config() do
-    Application.fetch_env!(:phoenix_postgres_pubsub)[:adapter]
+    Application.fetch_env!(:phoenix_postgres_pubsub, :config)[:adapter]
   end
 
   defp repo_from_config() do
-    Application.fetch_env!(:phoenix_postgres_pubsub)[:repo]
+    Application.fetch_env!(:phoenix_postgres_pubsub, :config)[:repo]
   end
 end
