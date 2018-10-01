@@ -1,6 +1,6 @@
-# PhoenixPostgresPubSub
+# Phoenix Postgres PubSub
 
-Listen to changes to the tables of your Postgres database. For every INSERT or UPDATE in a specified table, a function will be called with the payload.
+Call a function every time that a specific row in your database changes 
 
 ## Installation
 
