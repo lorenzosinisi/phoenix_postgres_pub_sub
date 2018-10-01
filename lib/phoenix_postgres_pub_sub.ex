@@ -16,7 +16,6 @@ defmodule PhoenixPostgresPubSub do
     {:ok, pid} = Postgrex.Notifications.start_link(pg_config)
 
     list_of_channels = List.wrap(channels)
-    IO.inspect(list_of_channels, label: :start_listening)
     Enum.map(list_of_channels, fn channel -> Postgrex.Notifications.listen(pid, channel) end)
 
     {:ok, {pid, channels, nil}}
@@ -26,13 +25,10 @@ defmodule PhoenixPostgresPubSub do
   Listen for changes
   """
   def handle_info(notification, state) do
-    IO.inspect(notification)
+    require Logger
+    Logger.info("Something is happening here")
     adapter = adapter_from_config()
     apply(adapter, :handle_postgres_notification, [notification, state])
-
-    IO.inspect(
-      "Called #{adapter}, :handle_postgres_notification with params #{inspect(notification)}"
-    )
 
     {:noreply, :event_handled}
   end
