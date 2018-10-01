@@ -26,7 +26,7 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
     * `-r`, `--repo` - the repo to generate migration for
   """
 
-  @switches []
+  @switches [name: :string]
 
   @doc false
   def run(args) do
@@ -36,6 +36,7 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
     Enum.map(repos, fn repo ->
       case OptionParser.parse(args, switches: @switches) do
         {opts, [name], _} ->
+          IO.inspect(opts)
           ensure_repo(repo, args)
           path = Path.join(source_repo_priv(repo), "migrations")
           base_name = "#{underscore(name)}.exs"
@@ -52,7 +53,7 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
 
           assigns = [
             mod: Module.concat([repo, Migrations, camelize(name)]),
-            change: opts[:change]
+            name: opts[:name]
           ]
 
           create_file(file, migration_template(assigns))
