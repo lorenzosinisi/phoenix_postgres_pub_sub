@@ -26,7 +26,7 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
     * `-r`, `--repo` - the repo to generate migration for
   """
 
-  @switches [name: :string]
+  @switches [table_name: :string]
 
   @doc false
   def run(args) do
