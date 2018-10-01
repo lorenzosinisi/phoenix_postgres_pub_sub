@@ -27,7 +27,8 @@ defmodule PhoenixPostgresPubSub.MixProject do
   defp deps do
     [
       {:postgrex, "~> 0.13.3"},
-      {:ecto, "~> 2.2.10"}
+      {:ecto, "~> 2.2.10"},
+      {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
 end
