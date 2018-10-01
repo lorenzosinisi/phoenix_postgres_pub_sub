@@ -24,9 +24,9 @@ defmodule PhoenixPostgresPubSub do
   @doc """
   Listen for changes
   """
-  def handle_info(notification, _state) do
+  def handle_info(notification, state) do
     adapter = adapter_from_config()
-    apply(adapter, :handle_postgres_notification, [notification])
+    apply(adapter, :handle_postgres_notification, [notification, state])
 
     {:noreply, :event_handled}
   end
