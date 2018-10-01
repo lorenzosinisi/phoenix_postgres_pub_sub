@@ -82,7 +82,7 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
     use Ecto.Migration
     def change do
     execute("
-            CREATE OR REPLACE FUNCTION broadcast_<%= inspect @name %>_changes()
+            CREATE OR REPLACE FUNCTION broadcast_<%= @name %>_changes()
             RETURNS trigger AS $$
             DECLARE
               current_row RECORD;
@@ -96,7 +96,7 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
                 OLD := NEW;
               END IF;
             PERFORM pg_notify(
-                '<%= inspect @name %>_changes',
+                '<%= @name %>_changes',
                 json_build_object(
                   'table', TG_TABLE_NAME,
                   'type', TG_OP,
@@ -108,10 +108,10 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
             $$ LANGUAGE plpgsql;")
 
     execute("
-            CREATE TRIGGER notify_<%= inspect @name %>_changes_trigger
+            CREATE TRIGGER notify_<%= @name %>_changes_trigger
             AFTER INSERT OR UPDATE
             ON <%= inspect @name %>
-            FOR EACH ROW EXECUTE PROCEDURE broadcast_<%= inspect @name %>_changes();")
+            FOR EACH ROW EXECUTE PROCEDURE broadcast_<%= @name %>_changes();")
     end
   end
   """)
