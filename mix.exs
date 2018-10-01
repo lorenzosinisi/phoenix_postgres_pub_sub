@@ -12,7 +12,8 @@ defmodule PhoenixPostgresPubSub.MixProject do
         licenses: ["MIT"],
         maintainers: [" Lorenzo Sinisi "],
         links: %{"GitHub" => "https://github.com/lorenzosinisi/phoenix_postgres_pub_sub"}
-      ]
+      ],
+      docs: [main: "PhoenixPostgresPubSub", extras: ["README.md"]]
     ]
   end
 
