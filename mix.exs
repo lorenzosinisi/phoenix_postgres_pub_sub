@@ -4,7 +4,7 @@ defmodule PhoenixPostgresPubSub.MixProject do
   def project do
     [
       app: :phoenix_postgres_pub_sub,
-      version: "0.1.1",
+      version: "0.1.2",
       elixir: "~> 1.6",
       deps: deps(),
       description: "Subscribe to postgres notifications on specific database tables",
