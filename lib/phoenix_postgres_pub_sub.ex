@@ -25,9 +25,7 @@ defmodule PhoenixPostgresPubSub do
   Listen for changes
   """
   def handle_info(notification, state) do
-    require Logger
-    Logger.info("Something is happening here")
-    adapter = adapter_from_config()
+    adapter = Module.concat(adapter_from_config(), PhoenixPostgresPubSub)
     apply(adapter, :handle_postgres_notification, [notification, state])
 
     {:noreply, :event_handled}
