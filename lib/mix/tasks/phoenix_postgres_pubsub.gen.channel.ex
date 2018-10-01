@@ -51,9 +51,15 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
             )
           end
 
+          table_name =
+            opts[:table_name] ||
+              Mix.raise(
+                "migration can't be created, you need to pass the argument table_name (i.e. --table_name=users)."
+              )
+
           assigns = [
             mod: Module.concat([repo, Migrations, camelize(name)]),
-            name: opts[:name]
+            table_name: table_name
           ]
 
           create_file(file, migration_template(assigns))
@@ -82,7 +88,7 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
     use Ecto.Migration
     def change do
     execute("
-            CREATE OR REPLACE FUNCTION broadcast_<%= @name %>_changes()
+            CREATE OR REPLACE FUNCTION broadcast_<%= @table_name %>_changes()
             RETURNS trigger AS $$
             DECLARE
               current_row RECORD;
@@ -96,7 +102,7 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
                 OLD := NEW;
               END IF;
             PERFORM pg_notify(
-                '<%= @name %>_changes',
+                '<%= @table_name %>_changes',
                 json_build_object(
                   'table', TG_TABLE_NAME,
                   'type', TG_OP,
@@ -108,10 +114,10 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
             $$ LANGUAGE plpgsql;")
 
     execute("
-            CREATE TRIGGER notify_<%= @name %>_changes_trigger
+            CREATE TRIGGER notify_<%= @table_name %>_changes_trigger
             AFTER INSERT OR UPDATE
-            ON <%= inspect @name %>
-            FOR EACH ROW EXECUTE PROCEDURE broadcast_<%= @name %>_changes();")
+            ON <%= @table_name %>
+            FOR EACH ROW EXECUTE PROCEDURE broadcast_<%= @table_name %>_changes();")
     end
   end
   """)
