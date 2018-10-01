@@ -12,7 +12,7 @@ defmodule PhoenixPostgresPubSub do
   """
   @spec init(List.t()) :: {:ok, []}
   def init(channels) do
-    pg_config = DataBucket.Repo.config()
+    pg_config = repo_from_config().config()
     {:ok, pid} = Postgrex.Notifications.start_link(pg_config)
 
     list_of_channels = List.wrap(channels)
@@ -32,6 +32,10 @@ defmodule PhoenixPostgresPubSub do
   end
 
   defp adapter_from_config() do
-    Application.fetch_env!(:phoenix_postgres_pubsub, :adapter)
+    Application.fetch_env!(:phoenix_postgres_pubsub)[:adapter]
+  end
+
+  defp repo_from_config() do
+    Application.fetch_env!(:phoenix_postgres_pubsub)[:repo]
   end
 end

@@ -8,12 +8,12 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
   @shortdoc "Generates a new migration to listen on a Postgres channel"
 
   @moduledoc """
-  Generates a migration.
+  Generates a migration to listen to changes in postgres.
   The repository must be set under `:ecto_repos` in the
   current app configuration or given via the `-r` option.
   ## Examples
-      mix ecto.gen.migration add_posts_table
-      mix ecto.gen.migration add_posts_table -r Custom.Repo
+      mix ecto.gen.migration listen_to_member_changes --table=members
+      mix ecto.gen.migration listen_to_member_changes --table=members --repo=Custom.Repo
   The generated migration filename will be prefixed with the current
   timestamp in UTC which is used for versioning and ordering.
   By default, the migration will be generated to the
@@ -24,6 +24,7 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
   you have `ECTO_EDITOR` set in your environment variable.
   ## Command line options
     * `-r`, `--repo` - the repo to generate migration for
+    * `-t`, `--table` - the table to listen the notifications migration for
   """
 
   @switches [table: :string]
@@ -36,7 +37,6 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
     Enum.map(repos, fn repo ->
       case OptionParser.parse(args, switches: @switches) do
         {opts, [name], _} ->
-          IO.inspect(opts)
           ensure_repo(repo, args)
           path = Path.join(source_repo_priv(repo), "migrations")
           base_name = "#{underscore(name)}.exs"
