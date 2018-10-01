@@ -1,8 +1,6 @@
 defmodule PhoenixPostgresPubSub do
   use GenServer
 
-  require Logger
-
   @doc """
   Initialize the GenServer
   """
