@@ -26,7 +26,7 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
     * `-r`, `--repo` - the repo to generate migration for
   """
 
-  @switches [table_name: :string]
+  @switches [table: :string]
 
   @doc false
   def run(args) do
@@ -36,6 +36,7 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
     Enum.map(repos, fn repo ->
       case OptionParser.parse(args, switches: @switches) do
         {opts, [name], _} ->
+          IO.inspect(opts)
           ensure_repo(repo, args)
           path = Path.join(source_repo_priv(repo), "migrations")
           base_name = "#{underscore(name)}.exs"
@@ -51,7 +52,7 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
           end
 
           table_name =
-            opts[:table_name] ||
+            opts[:table] ||
               Mix.raise(
                 "migration can't be created, you need to pass the argument table_name (i.e. --table_name=users)."
               )
