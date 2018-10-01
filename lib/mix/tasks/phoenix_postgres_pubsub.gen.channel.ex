@@ -36,7 +36,6 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
     Enum.map(repos, fn repo ->
       case OptionParser.parse(args, switches: @switches) do
         {opts, [name], _} ->
-          IO.inspect(opts)
           ensure_repo(repo, args)
           path = Path.join(source_repo_priv(repo), "migrations")
           base_name = "#{underscore(name)}.exs"
