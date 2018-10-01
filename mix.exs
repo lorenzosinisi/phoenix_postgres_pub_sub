@@ -6,8 +6,6 @@ defmodule PhoenixPostgresPubSub.MixProject do
       app: :phoenix_postgres_pub_sub,
       version: "0.1.0",
       elixir: "~> 1.6",
-      start_permanent: Mix.env() == :prod,
-      build_embedded: Mix.env() == :prod,
       deps: deps(),
       description: "Subscribe to postgres notifications on specific database tables",
       package: [
