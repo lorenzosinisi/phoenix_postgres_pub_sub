@@ -31,6 +31,21 @@ defmodule PhoenixPostgresPubSub do
     {:noreply, :event_handled}
   end
 
+  @doc """
+  Listen for changes
+  """
+  def handle_info(notification, state) do
+    IO.inspect(notification)
+    adapter = adapter_from_config()
+    apply(adapter, :handle_postgres_notification, [notification, state])
+
+    IO.inspect(
+      "Called #{adapter}, :handle_postgres_notification with params #{inspect(notification)}"
+    )
+
+    {:noreply, :event_handled}
+  end
+
   defp adapter_from_config() do
     Application.get_env(:phoenix_postgres_pub_sub, :config)[:adapter]
   end
