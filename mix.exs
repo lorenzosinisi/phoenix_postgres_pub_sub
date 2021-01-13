@@ -29,6 +29,7 @@ defmodule PhoenixPostgresPubSub.MixProject do
     [
       {:postgrex, "~> 0.15.5"},
       {:ecto, "~> 3.5.0"},
+      {:ecto_sql, "3.5.0"},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
