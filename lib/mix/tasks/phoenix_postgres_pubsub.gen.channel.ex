@@ -4,6 +4,7 @@ defmodule Mix.Tasks.PhoenixPostgresPubSub.Gen.Channel do
   import Macro, only: [camelize: 1, underscore: 1]
   import Mix.Generator
   import Mix.Ecto
+  import Mix.EctoSQL
 
   @shortdoc "Generates a new migration to listen on a Postgres channel"
 
